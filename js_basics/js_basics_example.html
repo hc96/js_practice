@@ -6,15 +6,127 @@
 </head>
 
 <body>
+    <!-- 1. Close QR Code  -->
+    <h1>1. Close QR Code </h1>
+    <div class="box">
+        QR Code
+        <img src="../imgs/qr_code.png" />
+        <i class="close-btn">x</i>
+    </div>
+
+    <!-- 2. Sprites -->
+    <h1>2. Sprites</h1>
+    <div class="spriteBox">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <!-- 3. login -->
+    <h1>3. Login</h1>
+    <div class="login">
+        <input type="text" placeholder="username/email" id="username" />
+        <input type="password" placeholder="password" id="pwd" />
+        <button class="loginBtn">Log In</button>
+    </div>
+
 
 </body>
 
 <script>
+    var qrBox = document.querySelector('.box')
+    var btn = document.querySelector('.close-btn')
+    btn.onclick = function () {
+        qrBox.style.display = 'none'
+    }
+
+    // sprites
+    var lis = document.querySelectorAll('li')
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].style.backgroundPosition = '600px -' + 450 * i + 'px';
+    }
+
+    // login
+    var username = document.querySelector('#username')
+    var pwd = document.querySelector('#pwd')
+    var loginBtn = document.querySelector('.loginBtn')
+    username.onfocus = function () {
+        this.placeholder = ''
+        this.style.border = '2px solid pink'
+    }
+    username.onblur = function () {
+        this.placeholder = 'username/email'
+        this.style.border = '1px solid #ccc'
+    }
+    pwd.onfocus = function () {
+        this.placeholder = ''
+        this.style.border = '2px solid pink'
+    }
+    pwd.onblur = function () {
+        this.placeholder = 'password'
+        this.style.border = '1px solid #ccc'
+    }
+    loginBtn.onclick = function () {
+        alert('you are logging in ...')
+    }
 
 </script>
 
 <style>
+    .box {
+        position: relative;
+        width: 120px;
+        margin: auto;
+        text-align: center;
+        border: 1px solid #ccc;
+        background-color: antiquewhite;
+        display: block;
+    }
 
+    .box img {
+        width: 90px;
+    }
+
+    .box i {
+        position: absolute;
+        left: -20px;
+        top: -1px;
+        width: 20px;
+        background-color: pink;
+        cursor: pointer;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .spriteBox li {
+        float: left;
+        width: 600px;
+        height: 400px;
+        background: url('../imgs/sprites.png');
+    }
+
+    .login {
+        width: 400px;
+        margin: auto;
+    }
+
+    .login input {
+        outline: none;
+    }
+
+    .login button {
+        border: none;
+        background-color: lightblue;
+        color: white;
+        font-size: 6px;
+        padding: 4px 10px;
+        cursor: pointer;
+
+    }
 </style>
 
 </html>

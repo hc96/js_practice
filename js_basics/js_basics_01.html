@@ -17,6 +17,32 @@
     <button id="coldplay">Coldplay</button>
     <button id="cranberries">The Cranberries</button><br>
     <img src="../imgs/coldplay.jpg" title="" width="400px" />
+
+    <!-- show and hide password -->
+    <h2>3. show and hide password</h2>
+    <div id="box">
+        <input type="password" id="pwd" />
+        <img src="../imgs/eyes_closed.png" id="eyes" />
+    </div>
+
+    <!-- change the style -->
+    <h2>4. change the style of element</h2>
+    <div id="coloredBox">
+
+    </div>
+
+    <!-- change the style -->
+    <h2>5. change the style of element (className)</h2>
+    <div class="coloredBox">
+        Box
+    </div>
+
+    <!-- validation for password input -->
+    <h2>6. validation for password input</h2>
+    <div class="validation">
+        <input type="password" id="pwd2" />
+        <p class="msg">6-16 characters</p>
+    </div>
 </body>
 
 <script>
@@ -51,6 +77,52 @@
         pic.src = "../imgs/the_cranberries.jpg"
         pic.title = "The Cranberries"
     }
+
+    // show and hide passwords
+    var password = document.querySelector('#pwd')
+    var eyes = document.querySelector('#eyes')
+    var flag = 0
+    eyes.onclick = function () {
+        if (flag == 0) {
+            password.type = "text"
+            eyes.src = "../imgs/eyes_open.png"
+            flag = 1
+        } else {
+            password.type = "password"
+            eyes.src = "../imgs/eyes_closed.png"
+            flag = 0
+        }
+    }
+
+    // change the style 
+    var coloredBox = document.querySelector('#coloredBox')
+    coloredBox.onclick = function () {
+        this.style.backgroundColor = "purple"
+        this.style.width = "400px"
+    }
+
+    // change the style (className)
+    var coloredBox2 = document.querySelector('.coloredBox')
+    coloredBox2.onclick = function () {
+        this.className = 'coloredBox2'
+    }
+
+    // validation for password input
+    var pwd2 = document.querySelector('#pwd2')
+    var msg = document.querySelector('.msg')
+    pwd2.onblur = function () {
+        var len = this.value.length
+        if (len > 16 || len < 6) {
+            msg.className = 'msg wrong'
+            msg.innerHTML = 'wrong password length'
+        } else {
+            msg.className = 'msg correct'
+            msg.innerHTML = 'correct password length'
+        }
+    }
+
+
+
 </script>
 
 <style>
@@ -58,6 +130,76 @@
         width: 300px;
         height: 25px;
         background-color: aquamarine;
+    }
+
+    #box {
+        position: relative;
+        width: 400px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #box input {
+        width: 350px;
+        border: 0;
+        outline: none;
+    }
+
+    #box img {
+        width: 24px;
+        position: absolute;
+        right: 5px;
+        bottom: 2px;
+    }
+
+    #coloredBox {
+        width: 300px;
+        height: 300px;
+        background-color: pink;
+        margin: auto;
+    }
+
+    .coloredBox {
+        width: 200px;
+        height: 200px;
+        background-color: blanchedalmond;
+        text-align: center;
+        line-height: 200px;
+        margin: auto;
+    }
+
+    .coloredBox2 {
+        width: 300px;
+        height: 300px;
+        background-color: lightpink;
+        text-align: center;
+        line-height: 300px;
+        margin: auto;
+    }
+
+    .validation {
+        width: 500px;
+        margin: auto;
+    }
+
+    .validation #pwd2 {
+        width: 200px;
+    }
+
+    .msg {
+        display: inline-block;
+        padding-left: 30px;
+        background: url('../imgs/info.png') no-repeat;
+    }
+
+    .wrong {
+        color: red;
+        background-image: url('../imgs/wrong.png');
+    }
+
+    .correct {
+        background-image: url('../imgs/correct.png');
+        color: green;
+
     }
 </style>
 
