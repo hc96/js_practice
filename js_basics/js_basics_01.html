@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>js_basics_01</title>
+</head>
+
+<body>
+    <!-- Operation on Elements -->
+    <h1>Operation on Elements</h1>
+    <h2>1. change the content of element</h2>
+    <button id="btn">Click on me!</button>
+    <div class="time">Current Time</div>
+
+    <!-- switch pics -->
+    <h2>2. switch pictures</h2>
+    <button id="coldplay">Coldplay</button>
+    <button id="cranberries">The Cranberries</button><br>
+    <img src="../imgs/coldplay.jpg" title="" width="400px" />
+</body>
+
+<script>
+    var btn = document.getElementById('btn')
+    var timeDiv = document.querySelector('div')
+    btn.onclick = function () {
+        // alert("You just clicked me!")
+        timeDiv.innerText = getDate()
+    }
+
+    function getDate() {
+
+        var currentDate = new Date()
+        var currentYear = currentDate.getFullYear()
+        var currentMonth = currentDate.getMonth() + 1
+        var currentDay = currentDate.getDay()
+        var dates = currentDate.getDate()
+        var arr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        return 'today is: ' + currentYear + ' ' + currentMonth + ' ' + dates + ' ' + arr[currentDay]
+    }
+
+
+    // switch pics
+    var coldplay = document.getElementById('coldplay')
+    var cranberries = document.getElementById('cranberries')
+    var pic = document.querySelector('img')
+    coldplay.onclick = function () {
+        pic.src = "../imgs/coldplay.jpg"
+        pic.title = "Coldplay"
+    }
+    cranberries.onclick = function () {
+        pic.src = "../imgs/the_cranberries.jpg"
+        pic.title = "The Cranberries"
+    }
+</script>
+
+<style>
+    .time {
+        width: 300px;
+        height: 25px;
+        background-color: aquamarine;
+    }
+</style>
+
+</html>
