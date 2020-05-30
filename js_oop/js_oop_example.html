@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>A Tab</title>
+</head>
+
+<body>
+    <h1>Tab</h1>
+    <div id="tabContainer">
+        <!-- navigation -->
+        <nav id="tabNav">
+            <ul>
+                <li class="tabActive"><span>Tab 1</span><span class="iconfont icon-guanbi"></span></li>
+                <li><span>Tab 2</span><span class="iconfont icon-guanbi"></span></li>
+                <li><span>Tab 3</span><span class="iconfont icon-guanbi"></span></li>
+            </ul>
+            <div id="addTab">
+                <span>+</span>
+            </div>
+        </nav>
+
+        <!-- tab content -->
+        <div id="tabContent">
+            <section class="conActive">Content 1</section>
+            <section>Content 2</section>
+            <section>Content 3</section>
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+
+    var that
+    class Tab {
+        constructor() {
+            that = this;
+
+            this.addtab = document.querySelector('#addTab')
+            this.ul = document.querySelector('ul')
+            this.con = document.querySelector('#tabContent')
+
+            console.log(this.closetab)
+
+            this.init()
+
+        }
+
+        init() {
+            this.lis = document.querySelectorAll('li')
+            this.secs = document.querySelectorAll('section')
+            this.closetabs = document.querySelectorAll('li span:last-child')
+            this.spans = document.querySelectorAll('li span:first-child')
+
+            this.addtab.onclick = this.addTab
+            for (var i = 0; i < this.lis.length; i++) {
+                this.lis[i].index = i
+                this.lis[i].onclick = this.toggleTab
+                this.closetabs[i].onclick = this.closeTab
+                this.spans[i].ondblclick = this.editTab
+                this.secs[i].ondblclick = this.editTab
+            }
+        }
+
+        toggleTab() {
+            that.clearClass()
+            this.className = 'tabActive'
+            that.secs[this.index].className = 'conActive'
+
+        }
+
+        clearClass() {
+            for (var i = 0; i < this.lis.length; i++) {
+                this.lis[i].className = ''
+                this.secs[i].className = ''
+            }
+        }
+
+        // add new Tab
+        addTab() {
+            that.clearClass()
+            var li = '<li class="tabActive"><span>New Tab</span><span class="iconfont icon-guanbi"></span></li>'
+            var sec = ' <section class="conActive">New Content</section>'
+            that.ul.insertAdjacentHTML('beforeend', li)
+            that.con.insertAdjacentHTML('beforeend', sec)
+            that.init()
+        }
+
+        closeTab(e) {
+            e.stopPropagation()
+            var index = this.parentNode.index
+            console.log(this.parentNode.index)
+            that.lis[index].remove()
+            that.secs[index].remove()
+            that.init()
+
+            if (document.querySelector('.tabActive')) return
+            if (index != 0) {
+                index--
+            }
+
+            that.lis[index] && that.lis[index].click()
+
+        }
+
+        editTab() {
+            var str = this.innerHTML
+            var span = '<input type="text"/>'
+
+            window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+
+            this.innerHTML = span
+
+            var input = this.children[0]
+            input.value = str
+            input.select()
+
+            input.onblur = function () {
+                this.parentNode.innerHTML = this.value
+            }
+
+            input.onkeyup = function (e) {
+                if (e.keyCode == 13)
+                    this.blur()
+            }
+
+        }
+
+    }
+    new Tab()
+
+
+</script>
+
+
+<style>
+    #tabContainer {
+        width: 800px;
+        height: 400px;
+        margin: auto;
+        border: 1px solid rgb(243, 77, 12);
+        position: relative;
+    }
+
+    /* Tab Navigation */
+
+    #tabContainer nav {
+        margin-top: 0px;
+        width: 100%;
+        height: 50px;
+        position: relative;
+    }
+
+    nav ul {
+        overflow: hidden;
+        width: 750px;
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+
+    }
+
+    ul li {
+        position: relative;
+        float: left;
+        /* box-sizing: border-box; */
+        width: 80px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        border-right: 1px solid #ccc;
+        cursor: pointer;
+
+    }
+
+    ul li span:last-child {
+        position: absolute;
+        right: 0;
+        top: -18px;
+    }
+
+    #addTab {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 0px;
+        right: 0px;
+        background-color: skyblue;
+        text-align: center;
+        line-height: 15px;
+        cursor: pointer;
+    }
+
+
+    nav ul li.tabActive {
+        border-bottom: 2px solid white;
+        z-index: 9;
+    }
+
+
+
+    /* Tab Content */
+
+    #tabContent {
+        width: 100%;
+        height: 350px;
+        margin: 0;
+        border-top: 1px solid #ccc;
+        box-sizing: border-box;
+        position: absolute;
+        padding: 30px;
+        /* background-color: seagreen; */
+    }
+
+    #tabContent section {
+        display: none;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    #tabContent .conActive {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    input {
+        width: 80%;
+        height: 50%;
+    }
+
+    @font-face {
+        font-family: "iconfont";
+        src: url('./iconfont/iconfont.eot?t=1553960438096');
+        /* IE9 */
+        src: url('./iconfont/iconfont.eot?t=1553960438096#iefix') format('embedded-opentype'),
+            /* IE6-IE8 */
+            url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAK4AAsAAAAABmwAAAJrAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcAp4fwE2AiQDCAsGAAQgBYRtBzAbpQXIrrApw71oi3CCOyzEy8RvE4yIN8TD036/zp03qCYRjaJZNBFFS/gREoRGipQKofjuNrb+9XbTqrmXcqWzfTRDqFqWkhAJzYToaE6LQ7Q30CirRqSKMnj58DdIdrNAdhoTQJa5VGfLrtiAy+lPoAcZdUC57UljTR4TMAo4oL0xiqwYG8YueIHPCdTqYajty/t+bUpmrwvEnUK42lQhLMssVy1UNhzN4kmF6vSQVvMY/T5+HEU1SUXBbti7uBBrx++cgqJULp0GhAgBna5AgSkgE0eN6R1NwTitNt0yAI5VG7wr/8AljmoX7K+zq+tBF1Q8k9JTPWp1AjnJDgCzmM3bU0V31dsvV3M2eC6fHjaGfX/qS7U5Gr58vj6uD0bgxudyrV/OtHHyP+NZnpO1txbktjdY+3FB61+7nxeOzq8niGYnRwT3v3aZxeXf6rrNxl5//49WlEtZUUL1Pj3Bv1EO7MuG2namrCkbvcnApLUJtWpRhv2tzlRLx43kQ7WO2/FW6c5QqDZEZnYKFeosoVK1NdSa5E/XaVM1Ra7BhAEQmk0kjV5QaLbIzG5U6HRRqTkK1DqJtivrjMT1zJaNnIsihAiyQE3JdbszcW0Xiadzdl4d8UO0HSUGNDNXzl2hifYSO5pPjrorgdjUAAavoa5TKDZVUXD3kuuOOzh70fShvUiN2owtNsRxIREIIiATUCYpGO2aqXy/CxEeHcfuaKrLDiGbQ5kcEMsNIK8M5qCmR3mn8RFHOpcECBtlAAwWIZ2OAqV5kQoJXHvShORYBzrDZKhhb3uT8QPlrA3bmsKZV6i89DiTV2o1AAAA') format('woff2'),
+            url('./iconfont/iconfont.woff?t=1553960438096') format('woff'),
+            url('./iconfont/iconfont.ttf?t=1553960438096') format('truetype'),
+            /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+            url('./iconfont/iconfont.svg?t=1553960438096#iconfont') format('svg');
+        /* iOS 4.1- */
+    }
+
+    .iconfont {
+        font-family: "iconfont" !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .icon-guanbi:before {
+        content: "\e676";
+    }
+</style>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <h1>1. keyword : this</h1>
+    <button>Click on me!</button>
+
+</body>
+
+<script>
+    // oop
+    // class & object
+    // keyword: this
+    var that
+
+    class Father {
+        constructor(x, y) {
+            this.x = x
+            this.y = y
+            that = this
+            this.btn = document.querySelector('button')
+            // sum 没有括号，否则直接运行
+            this.btn.onclick = this.sum
+        }
+        sum() {
+            console.log(that.x + that.y)
+        }
+    }
+
+    class Son extends Father {
+        substract() {
+            console.log(this.x - this.y)
+        }
+    }
+
+    var son1 = new Son(3, 1)
+    son1.substract()
+
+
+
+</script>
+
+
+<style>
+
+</style>
+
+</html>
