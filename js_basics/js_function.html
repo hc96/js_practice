@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Function</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <button>Click Me</button>
+
+    <div id="box"></div>
+</body>
+
+<script>
+    /*
+        --学习笔记：黑马程序员-javascript进阶--
+        
+        * 函数的定义和调用
+    
+    */
+    // call使用：调用函数；改变函数内this的指向；实现继承
+    var o = {
+        name: 'Andy'
+    }
+
+    function fn1(a, b) {
+        console.log(this);
+        console.log(b + a);
+
+    }
+
+    fn1.call(o, 1, 2)
+
+    function Father(uname, uage, usex) {
+        this.uname = uname;
+        this.uage = uage;
+        this.usex = usex;
+
+    }
+
+    function Son(uname, uage, usex) {
+        Father.call(this, uname, uage, usex);
+    }
+
+    var son = new Son('ldh', 18, 'female')
+    console.log(son)
+
+
+    // apply使用：调用还是，改变this指向
+    var obj = {
+        name: 'andy'
+    }
+
+    function fn(arr) {
+        console.log(this + arr);
+    }
+    fn.apply(obj, ['pink']);
+
+    var arr = [1, 2, 3, 6, 45, 33, 95]
+    var max = Math.max.apply(Math, arr);
+    console.log(max);
+
+
+
+    //bind() 不会立即调用
+    var btn = document.querySelector('button')
+    btn.onclick = function () {
+        this.disabled = true;  //这个this指向的是 btn 这个按钮
+
+        setTimeout(function () {
+            this.disabled = false; //定时器里的this 原来指向window， 此时指向 btn
+        }.bind(this), 3000); //这个this指向的是 btn 这个对象
+    }
+
+
+    //高阶函数
+
+    function fn2(a, b, callback) {
+        console.log(a + b);
+        callback && callback();
+
+    }
+
+    fn2(1, 2, function () {
+        console.log('callback function');
+    });
+
+    $("#box").animate({ marginLeft: 500 }, function () {
+        $("#box").css("backgroundColor", "purple")
+    })
+
+
+</script>
+
+<style>
+    #box {
+        width: 50px;
+        height: 50px;
+        margin-top: 20px;
+        background-color: aquamarine;
+    }
+</style>
+
+</html>
