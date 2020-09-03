@@ -11,6 +11,16 @@
     <button>Click Me</button>
 
     <div id="box"></div>
+
+    <div id="nav">
+        <ul>
+            <li>Apple</li>
+            <li>Banana</li>
+            <li>Watermelon</li>
+            <li>Peach</li>
+        </ul>
+
+    </div>
 </body>
 
 <script>
@@ -91,6 +101,186 @@
         $("#box").css("backgroundColor", "purple")
     })
 
+    //闭包
+
+    function fn3() {
+
+        var num = 10;
+        function fun() {
+            console.log("closure : ", num);
+        }
+        return fun;
+    }
+    var f = fn3();
+    f();
+
+    //闭包实例: 循环注册点击事件，点击li输出当前li的索引号
+
+    var lis = document.querySelector('#nav').querySelectorAll('li');
+
+    // no.1 使用 let
+    // for (let i in lis) {
+    //     lis[i].onclick = function () {
+    //         console.log(i);
+    //     }
+    // }
+
+    // no.2 动态添加属性
+    // for (var i = 0; i < lis.length; i++) {
+    //     lis[i].index = i;
+    //     lis[i].onclick = function () {
+    //         console.log(this.index); //注意这里用的是this
+    //     }
+    // }
+
+    // no.3 闭包
+    for (var i = 0; i < lis.length; i++) {
+
+        (function (i) {
+            lis[i].onclick = function () {
+                console.log(i)
+            }
+
+        })(i);
+
+    }
+
+    // 闭包实例：打车
+    // 起步价13（3公里以内），每多一公里5元钱, 堵车多收10元
+
+    var car = (function () {
+        var start = 13;
+        var total = 0;
+
+        return {
+            price: function (n) {
+                if (n <= 3) {
+                    total = start;
+                } else {
+                    total = (n - 3) * 5 + start;
+                }
+                return total;
+            },
+            congestion: function (flag) {
+                return flag ? total + 10 : total;
+            }
+        }
+
+    })();
+
+    console.log(car.price(5));
+    console.log(car.congestion(true));
+
+
+
+    // 递归求1~n的阶乘
+
+    function fn4(n) {
+        if (n == 1) {
+            return 1;
+        }
+        return n * fn4(n - 1);
+    }
+
+    console.log('recursion: ', fn4(3))
+
+
+    // 递归求斐波那契数列
+    function fb(n) {
+        if (n == 1 || n == 2) {
+            return 1;
+        }
+        return fb(n - 1) + fb(n - 2);
+
+    }
+
+    console.log("fb: ", fb(8))
+
+
+    // 使用递归遍历数据: 通过id号来获取数据
+    var appliance = [
+        {
+            id: 1,
+            name: 'fridge',
+            goods: [
+                {
+                    id: 11,
+                    name: 'meidi'
+                },
+                {
+                    id: 12,
+                    name: "geli"
+                }
+            ]
+        }, {
+            id: 2,
+            name: 'tv',
+
+        }
+    ]
+
+    function searchId(json, id) {
+        var rvalue = {};
+        json.forEach(function (item) {
+            if (item.id == id) {
+                rvalue = item;
+            } else if (item.goods && item.goods.length > 0) {
+                rvalue = searchId(item.goods, id)
+            }
+        });
+        return rvalue;
+    }
+
+    console.log('search id : ', searchId(appliance, 11))
+
+    // 浅拷贝
+
+    var obj = {
+        id: 1,
+        name: 'jack',
+        msg: {
+            age: 23
+        },
+        color: ['pink', 'red']
+    }
+
+    var o = {};
+
+    for (var item in obj) {
+        // item 是属性名， obj[item] 是属性值
+        o[item] = obj[item];
+    }
+
+    // 浅拷贝，修改obj里age属性值，则o的也跟着改变
+
+    console.log("copy: ", o)
+
+
+    // 使用函数递归来完成深拷贝
+    var newo = {};
+
+    function deepCopy(newObj, oldObj) {
+        for (var k in oldObj) {
+            var item = oldObj[k];
+            if (item instanceof Array) {
+                newObj[k] = [];
+                deepCopy(newObj[k], item);
+            } else if (k instanceof Object) {
+                newObj[k] = {};
+                deepCopy(newObj[k], item);
+            } else {
+                newObj[k] = item;
+            }
+        }
+
+    }
+
+
+    deepCopy(newo, obj);
+    console.log("deepcopy : ", newo);
+
+
+
 
 </script>
 
@@ -100,6 +290,11 @@
         height: 50px;
         margin-top: 20px;
         background-color: aquamarine;
+    }
+
+
+    #nav {
+        margin-top: 20px;
     }
 </style>
 
