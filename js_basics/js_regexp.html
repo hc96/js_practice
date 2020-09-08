@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Regular Expression</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <input id="uname" /> <span id="hint">Please enter the username</span>
+    <br>
+    <br>
+    <textarea id="ta"></textarea><button id="submit">submit</button>
+    <div></div>
+</body>
+
+<script>
+    /*
+        --学习笔记：黑马程序员-javascript进阶--
+
+        * 正则表达式
+
+    */
+
+    // 1.利用 RegExp 对象来创建 正则表达式
+    var regexp = new RegExp(/123/);
+    console.log(regexp);
+
+    // 2.利用字面量创建 正则表达式
+    var rg = /123/
+
+    // 3. test 方法用来检测字符串是否符合正则表达式要求的规范
+    console.log(rg.test(123));
+    console.log(rg.test('abc'));
+
+
+
+    /*
+        边界符
+         ^ 表示匹配行首的文本（以谁开始）
+         $ 表示匹配行尾的文本（以谁结束）
+
+         ^ $ 在一起表示必须是精确匹配
+    */
+
+    var rg1 = /^abc/
+    console.log(rg1.test('abc'));
+    console.log(rg1.test('abcccc'));
+    console.log(rg1.test('abcsdf'));
+
+    var rg2 = /^abc$/ // 精确匹配，要求必须是 abc 字符串才符合规范
+    console.log(rg2.test('abc'));
+    console.log(rg2.test('abcccc'));
+    console.log(rg2.test('abcabc'));
+
+
+    /*
+        字符类
+         [] 表示有一系列字符可供选择，只要匹配其中一个就可以了
+    */
+
+    var rg3 = /[abc]/ // 只要有包含 a 或者 b 或者 c， 都返回为true
+    console.log('------[]------')
+    console.log(rg3.test('andy'));
+    console.log(rg3.test('banana'));
+    console.log(rg3.test('red'));
+
+    var rg4 = /^[abc]$/; // 三选一 只有是 a 或者 b 或者 c 这三个字母才能返回true
+    console.log(rg4.test('aa'));
+    console.log(rg4.test('a'));
+    console.log(rg4.test('b'));
+    console.log(rg4.test('c'));
+    console.log(rg4.test('abc'));
+
+    var rg5 = /^[a-z]$/; //26个英文字母任何一个字母返回都为true，分大小写
+    console.log(rg5.test('a'));
+    console.log(rg5.test(1));
+    console.log(rg5.test('A'));
+
+    //字符组合
+    var rg6 = /^[a-zA-Z0-9_-]$/
+    console.log('字符组合');
+    console.log(rg6.test('a'));
+    console.log(rg6.test('Z'));
+    console.log(rg6.test(1));
+    console.log(rg6.test('-'));
+    console.log(rg6.test('_'));
+    console.log(rg6.test('!'));
+
+    // 如果中括号里面有 ^, 表示取反的意思， 和边界符 ^ 别混淆
+    var rg7 = /^[^a-zA-Z0-9_-]$/
+    console.log(rg7.test('a'));
+
+
+    /*
+        量词符： 设定某个模式出现的次数
+        简单理解：让这个字符重复多少次
+    */
+
+    // * 重复0次或多次
+    var rg8 = /^a*$/
+    console.log('量词符')
+    console.log(rg8.test(''));
+    console.log(rg8.test('a'));
+    console.log(rg8.test('aaa'));
+
+    // + 重复1次或多次
+    var rg9 = /^a+$/
+    console.log(rg9.test(''));
+    console.log(rg9.test('a'));
+    console.log(rg9.test('aaa'));
+
+    // ？ 重复0次或1次
+    var rg10 = /^a?$/
+    console.log(rg10.test(''));
+    console.log(rg10.test('a'));
+    console.log(rg10.test('aaa'));
+
+    // {3}  重复3次
+    var rg11 = /^a{3}$/
+    console.log("准确次数")
+    console.log(rg11.test(''));
+    console.log(rg11.test('a'));
+    console.log(rg11.test('aaa'));
+    console.log(rg11.test('aaaa'));
+
+    // {3,}  大于等于3
+    var rg12 = /^a{3,}$/
+    console.log(rg12.test(''));
+    console.log(rg12.test('a'));
+    console.log(rg12.test('aaa'));
+    console.log(rg12.test('aaaa'));
+
+    // {3,16}  大于等于3,并且小于等于16
+    var rg13 = /^a{3,6}$/
+    console.log(rg13.test(''));
+    console.log(rg13.test('a'));
+    console.log(rg13.test('aaa'));
+    console.log(rg13.test('aaaa'));
+    console.log(rg13.test('aaaaaaa'));
+
+    //用量词来设定某个模式的出现次数
+    var rg14 = /^[a-zA-Z0-9_-]{6,16}$/ // 注意{6,16}中间不能有空格
+    console.log("--------rg14--------")
+    console.log(rg14.test('a'));
+    console.log(rg14.test('angela07'));
+    console.log(rg14.test('angela_07'));
+    console.log(rg14.test('angela!07'));
+
+    // 例子：用户名表单验证
+    var uname = document.querySelector('#uname')
+    var hint = document.querySelector('#hint')
+    var reg = /^[a-zA-Z0-9_-]{6,16}$/
+    uname.onblur = function () {
+        if (reg.test(this.value)) {
+            hint.className = 'green';
+            hint.innerHTML = 'correct username';
+        } else {
+            hint.className = 'red';
+            hint.innerHTML = 'false username';
+        }
+    }
+
+
+    /*
+        括号总结
+    */
+    console.log('------ 括号总结 ------')
+
+    //中括号 字符集合，匹配方括号中的任意字符
+    var reg3 = /^[abc]{2}$/
+    console.log(reg3.test('aa'))
+
+    //大括号 量词，数字表示重复次数
+    var reg2 = /^abc{3}$/
+    console.log(reg2.test('abccc'))
+
+    //小括号 表示优先级
+    var reg1 = /^(abc){2}$/
+    console.log(reg1.test('abcabc'))
+
+
+    /*
+        预定义类
+        座机号码验证： 010-12345678  或 0566-1234567
+    */
+
+    console.log('------ 预定义类 ------')
+    var reg4 = /\d{3}-\d{8}|\d{4}-\d{7}/
+    console.log(reg4.test('010-12345678'))
+    console.log(reg4.test('0566-1234567'))
+
+
+    /*
+        replace 替换
+    */
+    var ta = document.querySelector('#ta')
+    var submit = document.querySelector('#submit')
+    var div = document.querySelector('div')
+
+    submit.onclick = function () {
+        div.innerHTML = ta.value.replace(/gay|sex/g, '**')
+    }
+
+
+</script>
+
+<style>
+    .green {
+        color: green;
+    }
+
+    .red {
+        color: red;
+    }
+</style>
+
+</html>
