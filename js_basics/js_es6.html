@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ES6</title>
+</head>
+
+<body>
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+
+
+</body>
+
+<script>
+    /*
+        解构赋值
+        - ES6允许从数组中提取值，按照对应的位置，对变量进行赋值，对象也可以实现解构。
+
+    */
+
+    // 数组解构
+
+    let [a, b, c, d, e] = [1, 2, 3];
+    console.log(a);
+    console.log(b);
+    console.log(c);
+    console.log(d); // undefined
+    console.log(e); // undefined
+
+
+    // 对象解构
+    let person = { name: 'Ella', age: 18, sex: 'female' };
+    let { name, age, sex } = person;
+    console.log(name);
+    console.log(age);
+    console.log(sex);
+
+    let { name: Myname, age: Myage } = person;
+    console.log(Myname);
+    console.log(Myage);
+
+
+    /*
+        箭头函数
+    */
+
+    // 箭头函数是用来简化函数定义语法的
+
+    const fn = (v) => {
+        console.log('I am arrow ' + v);
+    }
+
+    fn('man');
+
+
+    // 函数体中只有一句代码，且代码的执行结果就是返回值，可以省略大括号
+
+    const fn1 = (v1, v2) => v1 + v2;
+    console.log('1 + 2 = ' + fn1(1, 2));
+
+
+    // 如果形参只有一个，可以省略小括号 
+    const fn2 = v3 => 2 * v3;
+    console.log(fn2(3));
+
+
+
+    // 箭头函数不绑定this关键字，箭头函数中的this，指向的是函数定义位置的上下文this
+
+    let obj = { name: 'zhang' }
+    function fn3() {
+        console.log(this)
+        return () => {
+            console.log(this)
+        }
+    }
+
+    let restFn = fn3.call(obj)
+    restFn()
+
+
+    // 箭头函数：面试题
+    // obj1 是一个对象，不能产生作用域（scope），箭头函数实际上定义在了全局作用域上
+
+    // var age1 = 100
+    var obj1 = {
+        age1: 20,
+        say: () => {
+            console.log('this in arrow function :' + this.age1)  // this 指向的是 window
+        }
+    }
+
+    obj1.say() // undefined
+
+
+    /*
+        剩余参数
+        - 将一个不定数量的参数表示为一个数组
+    */
+
+    function sum(...args) {
+        let total = 0
+        args.forEach(item => total += item)
+        return total
+    }
+
+    console.log('sum is : ' + sum(10, 20, 30))
+
+    // 剩余参数 和 解构赋值
+
+    let families = ['sam', 'tommy', 'jack']
+    let [s1, ...s2] = families
+    console.log(s2)
+
+
+    /*
+        扩展运算符
+        - 扩展运算符可以将数组或者对象转为用逗号分隔的参数序列
+    */
+
+    let arr1 = [1, 2, 3]
+    console.log(...arr1)
+
+
+    // 扩展运算符可以应用于合并数组
+
+    let arr2 = [1, 2, 3]
+    let arr3 = [4, 5, 6]
+    let arr4 = [...arr2, ...arr3]
+    console.log(arr4)
+
+    arr4.push(...arr1)
+    console.log(arr4)
+
+    // 扩展运算符将伪数组转换为真正的数组，就可以调用数组下面的方法
+    let parr = document.getElementsByTagName('p')
+    let parrReal = [...parr]
+    console.log(parrReal)
+    parrReal.push('a')
+    console.log(parrReal)
+
+    // 构造函数方法： Array.from() 将伪数组或可遍历对象转换为真正的数组
+
+    let arrayLike = {
+        '0': '1',
+        '1': '2',
+        'length': 2
+
+    }
+
+    let newArr = Array.from(arrayLike, item => item * 2)
+    console.log(newArr)
+
+    // find() 方法
+    // 用于找出第一个符合条件的数组成员，如果没有找到返回undefined
+
+    let arr5 = [
+        {
+            id: 1,
+            name: 'ning'
+
+        }, {
+            id: 2,
+            name: 'jing'
+        }
+    ]
+
+    let target = arr5.find(item => item.id == 2)  // 注意这里等号是 ==
+    console.log(target)
+
+    // findIndex() 找出第一个符合条件的数组成员的位置，如果没有找到返回-1
+
+    let arr6 = [10, 20, 30]
+    let index = arr6.findIndex(item => item > 15)
+    console.log(index)
+
+
+    // include() 表示某个数组是否包含给定的值，返回布尔值
+    console.log(arr6.includes(10))
+    console.log(arr6.includes(40))
+
+
+
+    /*
+        模板字符串
+        - ES6新增创建字符串的方式，使用反引号定义
+        - 模板字符串可以换行
+        - 模板字符串中可以调用函数
+    */
+
+    let fn4 = () => {
+        return 'right?'
+    }
+
+    let tmp = `I am a string ${fn4()}`
+    console.log(tmp)
+
+    // startsWith() 表示参数字符串是否在原字符串的头部，返回布尔值
+    // endsWith() 表示字符串是否在原字符串的尾部，返回布尔值
+    let str = 'hello, 2020'
+    console.log(str.startsWith('hello'))
+    console.log(str.endsWith('2020'))
+
+    // repeat() 表示将源字符串重复n次，返回一个新字符串
+    console.log('ha'.repeat(5))
+
+
+    /*
+        set 数据结构
+        - 类似于数组，但是成员的值都是唯一的，没有重复的值
+    */
+
+    // Set 本身是一个构造函数，用来生成Set 数据结构
+    const s = new Set()
+
+
+
+</script>
+
+
+<style>
+
+</style>
+
+</html>
