@@ -211,10 +211,52 @@
     /*
         set 数据结构
         - 类似于数组，但是成员的值都是唯一的，没有重复的值
+        - 可用于搜索中，用户输入的关键字
+
+        实例方法
+        - add(value) 添加某个值，返回Set结构本身
+        - delete(value) 删除某个值，返回一个布尔值，表示删除是否成功
+        - has(value) 返回一个布尔值，表示该值是否为Set的成员
+        - clear() 清楚所有的成员，没有返回值
     */
 
     // Set 本身是一个构造函数，用来生成Set 数据结构
     const s = new Set()
+
+    // Set 函数可以接受一个数组作为参数，用来初始化
+    const set = new Set([1, 2, 3, 4, 5])
+    console.log(set.size)
+
+    // 数组去重 
+    const set1 = new Set(['a', 'a', 'b', 'b'])
+    console.log(set1.size)
+    const ary = [...set1]
+    console.log(ary)
+
+    // 向Set结构中添加值
+    const set2 = new Set()
+    set2.add('c').add('d')
+    console.log(set2.size)
+
+    // 删除值
+    set2.delete('d')
+    console.log(set2.size)
+
+    // 判断值
+    console.log(set2.has('c'))
+
+    // 清空值
+    set2.clear()
+    console.log(set2.size)
+
+    // 遍历 Set 数据结构，从中取值
+    const set3 = new Set(['a', 'b', 'c', 'd', 'e'])
+    set3.forEach(value => {
+        console.log(value)
+    })
+
+
+
 
 
 
